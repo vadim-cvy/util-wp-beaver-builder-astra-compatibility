@@ -1,0 +1,11 @@
+{
+  "name": "cvy/util-wp-beaver-builder-astra-compatibility",
+  "autoload": {
+    "psr-4": {
+      "Cvy\\WP\\BBAstrCompat\\": "src/"
+    }
+  },
+  "require": {
+    "cvy/util-design-patterns": "^1"
+  }
+}
