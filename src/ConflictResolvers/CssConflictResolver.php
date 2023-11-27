@@ -7,32 +7,15 @@ abstract class CssConflictResolver extends ConflictResolver
 {
   protected function __construct()
   {
-    add_filter( 'wp_print_styles', [ $this, '_print_styles' ] );
+    add_filter( 'wp_print_styles',
+      fn() => printf( '<style>' . $this->get_minified_css() . '</style>' )
+    );
   }
 
-  public function _print_styles() : void
+  private function get_minified_css() : string
   {
-    echo '<style>';
-
-    $this->print_all();
-
-    echo '</style>';
+    return preg_replace( '~\s+~', ' ', $this->get_css() );
   }
 
-  abstract protected function print_all() : void;
-
-  protected function echo( string $css, int $screen_max_width = 0 ) : void
-  {
-    if ( $screen_max_width )
-    {
-      $this->echo( "@media screen and (max-width:{$screen_max_width}px) {" );
-    }
-
-    echo preg_replace( '~\s+~', ' ', $css );
-
-    if ( $screen_max_width )
-    {
-      $this->echo( "}" );
-    }
-  }
+  abstract protected function get_css() : string;
 }
